@@ -41,10 +41,6 @@ public class CriteriaProcessor extends AbstractProcessor {
 
         for (TypeElement annotation : annotations) {
             for (Element classElement : roundEnv.getElementsAnnotatedWith(annotation)) {
-                var className = classElement.getSimpleName().toString();
-                final String fullClassName = classElement.toString();
-
-                var packageName = getPackageName(className, fullClassName);
 
 
                 final ContextedClass contextedClass = this.initClass(classElement);
@@ -88,7 +84,11 @@ public class CriteriaProcessor extends AbstractProcessor {
         }
     }
 
-    private ClassOrInterfaceDeclaration initClass(Element classElement) {
+    private ContextedClass initClass(Element classElement) {
+        var className = classElement.getSimpleName().toString();
+        final String fullClassName = classElement.toString();
+
+        var packageName = getPackageName(className, fullClassName);
 
 
         final CompilationUnit compilationUnit = new CompilationUnit();
@@ -114,11 +114,11 @@ public class CriteriaProcessor extends AbstractProcessor {
         constructorBody.addAndGetStatement("super(" + fromClass.getSimpleName() + ".class)");
 
 
-        final ContextedClass contextedClass = new ContextedClass().setClassOrInterfaceDeclaration(classOrInterfaceDeclaration)
-                .setCompilationUnit();
+        final ContextedClass contextedClass = new ContextedClass().setClassOrInterfaceDeclaration(myClass)
+                .setCompilationUnit(compilationUnit);
 
 
-        return myClass;
+        return contextedClass;
     }
 
     private String getPackageName(String className, String fullClassName) {
