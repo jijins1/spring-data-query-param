@@ -1,0 +1,2 @@
+com/ruokki/query/repository/impl/DemoEntityRepositoryImplTest.java
+ com.ruokki.query.repository.impl.DemoEntityRepositoryImplTest

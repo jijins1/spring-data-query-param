@@ -1,0 +1,12 @@
+com/ruokki/query/repository/DemoEntityJpaRepository.java
+ com.ruokki.query.repository.DemoEntityJpaRepository
+com/ruokki/query/entity/DemoSubEntity.java
+ com.ruokki.query.entity.DemoSubEntity
+com/ruokki/query/entity/DemoEntity.java
+ com.ruokki.query.entity.DemoEntity
+com/ruokki/query/Application.java
+ com.ruokki.query.Application
+com/ruokki/query/repository/impl/DemoEntityRepositoryImpl.java
+ com.ruokki.query.repository.impl.DemoEntityRepositoryImpl
+com/ruokki/query/repository/DemoEntityRepository.java
+ com.ruokki.query.repository.DemoEntityRepository

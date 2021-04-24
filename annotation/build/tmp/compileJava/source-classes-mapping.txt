@@ -1,0 +1,5 @@
+com/ruokki/query/annotation/Criteria.java
+ com.ruokki.query.annotation.Criteria
+com/ruokki/query/annotation/CommonCriteria.java
+ com.ruokki.query.annotation.CommonCriteria
+ com.ruokki.query.annotation.CommonCriteria$TypeCriteria

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: EventBusTestSubscriberInJar.EventBusTestSubscriberInJar-3.0.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../EventBus/EventBusTestSubscriberInJar/build/libs/EventBusTestSubscriberInJar-3.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
