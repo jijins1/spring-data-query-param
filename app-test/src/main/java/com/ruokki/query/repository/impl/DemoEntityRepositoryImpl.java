@@ -35,6 +35,7 @@ public class DemoEntityRepositoryImpl implements DemoEntityRepository {
         List<Predicate> predicates = new ArrayList<>();
 
         Map<CommonCriteria.TypeCriteria, Map<String, ?>> packedCriteria = commonCriteria.getCriteriaMap();
+
         final Map<String, ?> dateMapCriteria = packedCriteria.getOrDefault(CommonCriteria.TypeCriteria.DATE, new HashMap<>());
         dateMapCriteria.forEach((fieldName, dateToCast) -> {
             if (dateToCast instanceof Date) {
@@ -48,6 +49,21 @@ public class DemoEntityRepositoryImpl implements DemoEntityRepository {
                 }
             }
         });
+
+        final Map<String, ?> primitifMapCriteria = packedCriteria.getOrDefault(CommonCriteria.TypeCriteria.PRIMITIF, new HashMap<>());
+        primitifMapCriteria.forEach((fieldName, listToCast) -> {
+            if (listToCast instanceof List) {
+                List<?> listOfValue = (List<?>) listToCast;
+                final String fieldToQuery = fieldName;
+                predicates.add(criteriaBuilder.in(from.get(fieldToQuery)).value(listOfValue));
+            } else if (listToCast == null) {
+                log.debug("Param {} is not set", fieldName);
+            } else {
+                log.error("listToCast is not a List");
+            }
+        });
+
+
         //criteria.forEach((s, strings) -> strings.forEach(s1 -> predicates.add(criteriaBuilder.equal(from.get(s), s1))));
 
         log.info("Launch request from criteria");

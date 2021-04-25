@@ -60,12 +60,18 @@ public class PrimitiveFieldCreator implements FieldCreator {
         final Name typeSimpleName = typeElement.getSimpleName();
         final String fieldNameSingle = fieldElement.getSimpleName().toString();
 
-        final FieldDeclaration fieldDeclaration = classOrInterfaceDeclaration.addField("List<" + typeSimpleName + ">", fieldNameSingle + "s", Modifier.Keyword.PRIVATE);
+        final String fieldNamePluriel = fieldNameSingle + "s";
+        final FieldDeclaration fieldDeclaration = classOrInterfaceDeclaration.addField("List<" + typeSimpleName + ">", fieldNamePluriel, Modifier.Keyword.PRIVATE);
 
         new MethodCreatorGetter().addGetter(classOrInterfaceDeclaration, fieldDeclaration);
         new MethodCreatorSetter().addSetter(classOrInterfaceDeclaration, fieldDeclaration);
         this.addSetterArray(classOrInterfaceDeclaration, fieldDeclaration, typeSimpleName.toString(), fieldNameSingle);
         this.addSetterOne(classOrInterfaceDeclaration, fieldDeclaration, typeSimpleName.toString(), fieldNameSingle);
+
+        contextedClass.getGetMapMethodeDeclaration().getBody().get()
+
+                .addAndGetStatement("primitiveParam.put(\"" + fieldNameSingle + "\",this." + fieldNamePluriel + ")");
+
         return Collections.singletonList(fieldDeclaration);
     }
 

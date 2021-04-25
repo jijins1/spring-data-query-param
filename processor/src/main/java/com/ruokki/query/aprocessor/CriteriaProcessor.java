@@ -126,7 +126,7 @@ public class CriteriaProcessor extends AbstractProcessor {
         final BlockStmt body = new BlockStmt();
         body.addAndGetStatement("Map<TypeCriteria, Map<String, ?>> result = new HashMap<>()");
         body.addAndGetStatement("Map<String, Date> dateParam = new HashMap<>()");
-        body.addAndGetStatement("Map<String, ?> primitiveParam = new HashMap<>()");
+        body.addAndGetStatement("Map<String, List<?>> primitiveParam = new HashMap<>()");
         body.addAndGetStatement("result.put(TypeCriteria.DATE, dateParam)");
         body.addAndGetStatement("result.put(TypeCriteria.PRIMITIF, primitiveParam)");
 
