@@ -15,14 +15,14 @@ import java.util.*;
 
 
 @Repository
-public class DemoEntityRepositoryImpl implements DemoEntityRepository {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(DemoEntityRepositoryImpl.class);
+public class CriteriaResearchRepository implements DemoEntityRepository {
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(CriteriaResearchRepository.class);
     public static final String START = "Start";
     public static final String END = "End";
     private EntityManager entityManager;
 
     @Autowired
-    public DemoEntityRepositoryImpl(EntityManager entityManager) {
+    public CriteriaResearchRepository(EntityManager entityManager) {
         log.info("Init");
         this.entityManager = entityManager;
     }
@@ -62,9 +62,6 @@ public class DemoEntityRepositoryImpl implements DemoEntityRepository {
                 log.error("listToCast is not a List");
             }
         });
-
-
-        //criteria.forEach((s, strings) -> strings.forEach(s1 -> predicates.add(criteriaBuilder.equal(from.get(s), s1))));
 
         log.info("Launch request from criteria");
         final CriteriaQuery<T> where = query.where(predicates.stream().toArray(Predicate[]::new));

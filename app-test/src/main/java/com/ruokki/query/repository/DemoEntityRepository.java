@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.Repository;
 
 
-public interface DemoEntityRepository extends Repository<DemoEntity, Long> {
+public interface DemoEntityRepository {
 }

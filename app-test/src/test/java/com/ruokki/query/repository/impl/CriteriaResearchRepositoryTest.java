@@ -20,10 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = Application.class)
 @Slf4j
-class DemoEntityRepositoryImplTest {
+class CriteriaResearchRepositoryTest {
 
     @Autowired
-    DemoEntityRepositoryImpl demoEntityRepository;
+    CriteriaResearchRepository demoEntityRepository;
     @Autowired
     DemoEntityJpaRepository demoEntityJpaRepository;
     private Date dateBefore;

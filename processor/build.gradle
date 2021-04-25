@@ -5,7 +5,7 @@ plugins {
 
 
 dependencies {
-    implementation project(":annotation")
+    implementation project(":common")
     implementation 'de.greenrobot:java-common:2.3.1'
 
     implementation 'com.github.javaparser:javaparser-symbol-solver-core:3.20.2'
