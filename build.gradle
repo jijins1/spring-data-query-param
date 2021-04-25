@@ -36,6 +36,7 @@ subprojects {
     apply plugin: 'idea'
     apply plugin: 'java'
     apply plugin: 'java-library'
+    apply plugin: 'jacoco'
 
 
     repositories {
@@ -67,6 +68,11 @@ subprojects {
 
     jacocoTestReport {
         dependsOn test // tests are required to run before generating the report
+        reports {
+            xml.enabled true
+            csv.enabled false
+        }
+
     }
 
 }
@@ -80,12 +86,6 @@ jacoco {
 
 
 
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        csv.enabled false
-    }
-}
 
 
 
