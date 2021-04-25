@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "org.sonarqube" version "3.1.1"
 }
 
 group 'org.example'
@@ -18,6 +19,13 @@ repositories {
 
 ext {
     set('springCloudVersion', "2020.0.2")
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "jijins1_spring-data-query-param"
+        property "sonar.organization", "jijins1"
+        property "sonar.host.url", "https://sonarcloud.io"    }
 }
 
 subprojects {
@@ -51,6 +59,12 @@ subprojects {
 
     test {
         useJUnitPlatform()
+    }
+
+    sonarqube {
+        properties {
+            property "sonar.sources", "src"
+        }
     }
 }
 
