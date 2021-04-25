@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
 
 
-public interface DemoEntityJpaRepository extends CrudRepository<DemoEntity, Long> {
+public interface DemoEntityJpaRepository extends JpaRepository<DemoEntity, Long> {
 }

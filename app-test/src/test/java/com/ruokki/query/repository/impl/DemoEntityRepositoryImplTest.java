@@ -5,7 +5,6 @@ import com.ruokki.query.entity.DemoEntity;
 import com.ruokki.query.entity.criteria.DemoEntityCriteria;
 import com.ruokki.query.repository.DemoEntityJpaRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +15,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = Application.class)
 @Slf4j
@@ -58,21 +59,21 @@ class DemoEntityRepositoryImplTest {
 
         final DemoEntityCriteria demoEntityCriteria = new DemoEntityCriteria();
         final List<DemoEntity> demoEntities = demoEntityRepository.searchByCriteria(demoEntityCriteria);
-        Assertions.assertThat(demoEntities).hasSize(3);
+        assertThat(demoEntities).hasSize(3);
     }
 
     @Test
     public void itShouldWorkWithParam() {
         final DemoEntityCriteria criteria = new DemoEntityCriteria().setStringA("Absolute");
         final List<DemoEntity> demoEntities = demoEntityRepository.searchByCriteria(criteria);
-        Assertions.assertThat(demoEntities).hasSize(1);
+        assertThat(demoEntities).hasSize(1);
     }
 
     @Test
     public void itShouldWorkWithMultipleSameParam() {
         final DemoEntityCriteria criteria = new DemoEntityCriteria().setStringAs(Lists.newArrayList("Truc", "Truc2"));
         final List<DemoEntity> demoEntities = demoEntityRepository.searchByCriteria(criteria);
-        Assertions.assertThat(demoEntities).hasSize(2);
+        assertThat(demoEntities).hasSize(2);
     }
 
 
@@ -83,8 +84,9 @@ class DemoEntityRepositoryImplTest {
                 .setDateStart(dateBefore)
                 .setDateEnd(dateAfter);
         final List<DemoEntity> demoEntities = demoEntityRepository.searchByCriteria(criteria);
-        Assertions.assertThat(demoEntities).hasSize(1);
-        Assertions.assertThat(demoEntities.get(0).getId()).isEqualTo(2L);
+        assertThat(demoEntities).hasSize(1);
+        assertThat(demoEntities.get(0).getId()).isEqualTo(2L);
 
     }
+
 }
