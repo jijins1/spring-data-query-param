@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id "org.sonarqube" version "3.1.1"
+    id 'jacoco'
 }
 
 group 'org.example'
@@ -61,12 +62,30 @@ subprojects {
 
     test {
         useJUnitPlatform()
+        finalizedBy jacocoTestReport
     }
 
-
+    jacocoTestReport {
+        dependsOn test // tests are required to run before generating the report
+    }
 
 }
 
+
+
+jacoco {
+    toolVersion = "0.8.6"
+}
+
+
+
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+    }
+}
 
 
 
