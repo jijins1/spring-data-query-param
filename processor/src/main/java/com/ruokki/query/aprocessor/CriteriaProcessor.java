@@ -4,6 +4,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.google.common.collect.Lists;
 import com.ruokki.query.annotation.CommonCriteria;
@@ -22,8 +23,7 @@ import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @SupportedAnnotationTypes("com.ruokki.query.annotation.Criteria")
@@ -55,14 +55,16 @@ public class CriteriaProcessor extends AbstractProcessor {
                             }
                         });
 
-                this.addAbstractMethod(contextedClass);
+                this.finishAbstractMethod(contextedClass);
                 this.writeClass(classElement, contextedClass);
             }
         }
         return true;
     }
 
-    private void addAbstractMethod(ContextedClass contextedClass) {
+    private void finishAbstractMethod(ContextedClass contextedClass) {
+        contextedClass.getGetMapMethodeDeclaration().getBody().get()
+                .addAndGetStatement("return result");
     }
 
     private void writeClass(Element classElement, ContextedClass contextedClass) {
@@ -114,8 +116,26 @@ public class CriteriaProcessor extends AbstractProcessor {
         constructorBody.addAndGetStatement("super(" + fromClass.getSimpleName() + ".class)");
 
 
+        compilationUnit.addImport(Map.class);
+        compilationUnit.addImport(HashMap.class);
+        compilationUnit.addImport(Date.class);
+        compilationUnit.addImport(CommonCriteria.TypeCriteria.class);
+
+        final MethodDeclaration getCriteriaMap = myClass.addMethod("getCriteriaMap", Modifier.Keyword.PUBLIC);
+        getCriteriaMap.setType("Map<TypeCriteria, Map<String, ?>>");
+        final BlockStmt body = new BlockStmt();
+        body.addAndGetStatement("Map<TypeCriteria, Map<String, ?>> result = new HashMap<>()");
+        body.addAndGetStatement("Map<String, Date> dateParam = new HashMap<>()");
+        body.addAndGetStatement("Map<String, ?> primitiveParam = new HashMap<>()");
+        body.addAndGetStatement("result.put(TypeCriteria.DATE, dateParam)");
+        body.addAndGetStatement("result.put(TypeCriteria.PRIMITIF, primitiveParam)");
+
+
+        getCriteriaMap.setBody(body);
+
+
         final ContextedClass contextedClass = new ContextedClass().setClassOrInterfaceDeclaration(myClass)
-                .setCompilationUnit(compilationUnit);
+                .setCompilationUnit(compilationUnit).setGetMapMethodeDeclaration(getCriteriaMap);
 
 
         return contextedClass;

@@ -17,4 +17,5 @@ public class ContextedClass {
     private CompilationUnit compilationUnit;
     private MethodDeclaration getMapMethodeDeclaration;
 
+
 }

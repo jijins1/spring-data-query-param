@@ -4,6 +4,7 @@ import com.ruokki.query.Application;
 import com.ruokki.query.entity.DemoEntity;
 import com.ruokki.query.entity.criteria.DemoEntityCriteria;
 import com.ruokki.query.repository.DemoEntityJpaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @SpringBootTest(classes = Application.class)
+@Slf4j
 class DemoEntityRepositoryImplTest {
 
     @Autowired
@@ -57,7 +59,7 @@ class DemoEntityRepositoryImplTest {
     public void itShouldWorkWithParam() {
         final DemoEntityCriteria criteria = new DemoEntityCriteria().setStringA("Absolute");
         final List<DemoEntity> demoEntities = demoEntityRepository.searchByCriteria(criteria);
-        Assertions.assertThat(demoEntities).hasSize(1);
+        Assertions.assertThat(demoEntities).hasSize(2);
     }
 
     @Test
@@ -65,7 +67,7 @@ class DemoEntityRepositoryImplTest {
 
         final DemoEntityCriteria criteria = new DemoEntityCriteria()
                 .setDateStart(dateBefore)
-                .setDateStart(dateAfter)
+                .setDateEnd(dateAfter)
                 .setStringA("Absolute");
         final List<DemoEntity> demoEntities = demoEntityRepository.searchByCriteria(criteria);
         Assertions.assertThat(demoEntities).hasSize(1);

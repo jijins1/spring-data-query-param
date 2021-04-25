@@ -50,7 +50,7 @@ public class DemoEntityRepositoryImpl implements DemoEntityRepository {
         });
         //criteria.forEach((s, strings) -> strings.forEach(s1 -> predicates.add(criteriaBuilder.equal(from.get(s), s1))));
 
-
+        log.info("Launch request from criteria");
         final CriteriaQuery<T> where = query.where(predicates.stream().toArray(Predicate[]::new));
 
         return entityManager.createQuery(where).getResultList();

@@ -4,6 +4,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.google.common.collect.Lists;
 import com.ruokki.query.aprocessor.ContextedClass;
 import com.ruokki.query.aprocessor.TypeUtils;
@@ -43,8 +44,10 @@ public class DateFieldCreator implements FieldCreator {
         final Name typeSimpleName = typeElement.getSimpleName();
         final String fieldNameSingle = fieldElement.getSimpleName().toString();
 
-        final FieldDeclaration fieldDeclarationStart = classOrInterfaceDeclaration.addField(typeSimpleName.toString(), fieldNameSingle + "Start", Modifier.Keyword.PRIVATE);
-        final FieldDeclaration fieldDeclarationEnd = classOrInterfaceDeclaration.addField(typeSimpleName.toString(), fieldNameSingle + "End", Modifier.Keyword.PRIVATE);
+        final String fieldNameStart = fieldNameSingle + "Start";
+        final FieldDeclaration fieldDeclarationStart = classOrInterfaceDeclaration.addField(typeSimpleName.toString(), fieldNameStart, Modifier.Keyword.PRIVATE);
+        final String fieldNameEnd = fieldNameSingle + "End";
+        final FieldDeclaration fieldDeclarationEnd = classOrInterfaceDeclaration.addField(typeSimpleName.toString(), fieldNameEnd, Modifier.Keyword.PRIVATE);
 
         final MethodCreatorSetter methodCreatorSetter = new MethodCreatorSetter();
         methodCreatorSetter.addSetter(classOrInterfaceDeclaration, fieldDeclarationStart);
@@ -53,6 +56,10 @@ public class DateFieldCreator implements FieldCreator {
         final MethodCreatorGetter methodCreatorGetter = new MethodCreatorGetter();
         methodCreatorGetter.addGetter(classOrInterfaceDeclaration, fieldDeclarationStart);
         methodCreatorGetter.addGetter(classOrInterfaceDeclaration, fieldDeclarationEnd);
+
+        final BlockStmt blockStmt = contextedClass.getGetMapMethodeDeclaration().getBody().get();
+        blockStmt.addAndGetStatement("dateParam.put(\"" + fieldNameStart + "\",this." + fieldNameStart + ")");
+        blockStmt.addAndGetStatement("dateParam.put(\"" + fieldNameEnd + "\",this." + fieldNameEnd + ")");
 
 
         return Lists.newArrayList(fieldDeclarationStart, fieldDeclarationEnd);
