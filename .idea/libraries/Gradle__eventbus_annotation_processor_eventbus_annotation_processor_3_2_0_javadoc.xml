@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: eventbus-annotation-processor.eventbus-annotation-processor-3.2.0-javadoc">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../EventBus/EventBusAnnotationProcessor/build/libs/eventbus-annotation-processor-3.2.0-javadoc.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
