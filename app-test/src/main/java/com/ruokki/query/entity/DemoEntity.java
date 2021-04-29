@@ -1,6 +1,7 @@
 package com.ruokki.query.entity;
 
 import com.ruokki.query.annotation.Criteria;
+import com.ruokki.query.annotation.SubCriteria;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,7 @@ public class DemoEntity {
 
     private Date date;
 
+    @SubCriteria
     @OneToOne
     @JoinColumn(name = "demo_sub_entity_id")
     private DemoSubEntity demoSubEntity;

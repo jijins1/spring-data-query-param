@@ -3,6 +3,7 @@ package com.ruokki.query.repository.impl;
 import com.ruokki.query.Application;
 import com.ruokki.query.entity.DemoEntity;
 import com.ruokki.query.entity.criteria.DemoEntityCriteria;
+import com.ruokki.query.repository.CriteriaResearchRepository;
 import com.ruokki.query.repository.DemoEntityJpaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;

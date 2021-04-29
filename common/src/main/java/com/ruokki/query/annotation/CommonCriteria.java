@@ -14,11 +14,10 @@ public abstract class CommonCriteria<T> {
      * <p>
      * Exemple :
      *
-     * <code>List<A> result = criteriaResearchRepository.searchByCriteria(ACriteria)</code>
+     * <code>List result = criteriaResearchRepository.searchByCriteria(ACriteria)</code>
      * {@link #getFromClass()} on ACriteria return `A.class`
-     *
+     * this class is setted by the generated code
      * @return the base class from your request
-     * @implNote this class is setted by the generated code
      */
     public Class<T> getFromClass() {
         return fromClass;
@@ -26,8 +25,8 @@ public abstract class CommonCriteria<T> {
 
     /**
      * Return a map with all setted value in your criteria
+     * this method is used for creating the request
      * @return
-     * @implNote this method is used for creating the request
      */
     public abstract Map<TypeCriteria, Map<String, ?>> getCriteriaMap();
 

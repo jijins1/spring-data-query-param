@@ -2,10 +2,11 @@ plugins {
     id 'java'
     id "org.sonarqube" version "3.1.1"
     id 'jacoco'
+    id 'maven-publish'
+    id 'signing'
+
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
@@ -31,13 +32,13 @@ sonarqube {
 }
 
 
-
 subprojects {
     apply plugin: 'idea'
     apply plugin: 'java'
     apply plugin: 'java-library'
     apply plugin: 'jacoco'
-
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
 
     repositories {
         mavenLocal()
@@ -66,6 +67,7 @@ subprojects {
         finalizedBy jacocoTestReport
     }
 
+
     jacocoTestReport {
         dependsOn test // tests are required to run before generating the report
         reports {
@@ -75,8 +77,105 @@ subprojects {
 
     }
 
+    java {
+        withJavadocJar()
+        withSourcesJar()
+    }
+
+    publishing {
+        repositories {
+            maven {
+                url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                credentials {
+                    username ossrhUsername
+                    password ossrhPassword
+                }
+            }
+        }
+
+        publications {
+
+            maven(MavenPublication) {
+                groupId = 'ovh.ruokki.query'
+                artifactId = project.name
+
+                from components.java
+            }
+            mavenJava(MavenPublication) {
+                pom {
+                    name = 'Spring Data Query Param'
+                    description = 'Generate easily usable criteria for data jpa'
+                    url = 'https://github.com/jijins1/spring-data-query-param'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'ruokki'
+                            name = 'Léo GERBERON'
+                            email = 'leo.gerberon@live.fr'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:git://github.com/jijins1/spring-data-query-param.git'
+                        developerConnection = 'scm:git:ssh://github.com/jijins1/spring-data-query-param.git'
+                        url = 'https://github.com/jijins1/spring-data-query-param'
+                    }
+                }
+            }
+        }
+    }
+
+
+
 }
 
+
+
+publishing {
+    repositories {
+        maven {
+            url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            credentials {
+                username ossrhUsername
+                password ossrhPassword
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'Spring Data Query Param'
+                description = 'Generate easily usable criteria for data jpa'
+                url = 'https://github.com/jijins1/spring-data-query-param'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'ruokki'
+                        name = 'Léo GERBERON'
+                        email = 'leo.gerberon@live.fr'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/jijins1/spring-data-query-param.git'
+                    developerConnection = 'scm:git:ssh://github.com/jijins1/spring-data-query-param.git'
+                    url = 'https://github.com/jijins1/spring-data-query-param'
+                }
+            }
+        }
+    }
+}
+signing {
+    sign publishing.publications.mavenJava
+}
 
 
 jacoco {

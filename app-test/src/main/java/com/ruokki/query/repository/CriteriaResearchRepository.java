@@ -1,7 +1,6 @@
-package com.ruokki.query.repository.impl;
+package com.ruokki.query.repository;
 
 import com.ruokki.query.annotation.CommonCriteria;
-import com.ruokki.query.repository.DemoEntityRepository;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
