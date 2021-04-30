@@ -9,12 +9,24 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 
+/**
+ * The type Contexted class.
+ */
 @Getter
 @Setter
 @Accessors(chain = true)
 public class ContextedClass {
+    /**
+     * The Class or interface declaration to populate during processor annotation build
+     */
     private ClassOrInterfaceDeclaration classOrInterfaceDeclaration;
+    /**
+     * The Compilation unit. Who contains the class
+     */
     private CompilationUnit compilationUnit;
+    /**
+     * The Get map methode declaration.
+     */
     private MethodDeclaration getMapMethodeDeclaration;
 
 

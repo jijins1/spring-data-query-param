@@ -58,8 +58,8 @@ public class DateFieldCreator implements FieldCreator {
         methodCreatorGetter.addGetter(classOrInterfaceDeclaration, fieldDeclarationEnd);
 
         final BlockStmt blockStmt = contextedClass.getGetMapMethodeDeclaration().getBody().get();
-        blockStmt.addAndGetStatement("dateParam.put(\"" + fieldNameStart + "\",this." + fieldNameStart + ")");
-        blockStmt.addAndGetStatement("dateParam.put(\"" + fieldNameEnd + "\",this." + fieldNameEnd + ")");
+        blockStmt.addAndGetStatement("dateParam.put(\"" + fieldNameStart + "\", this." + fieldNameStart + ")");
+        blockStmt.addAndGetStatement("dateParam.put(\"" + fieldNameEnd + "\", this." + fieldNameEnd + ")");
 
 
         return Lists.newArrayList(fieldDeclarationStart, fieldDeclarationEnd);

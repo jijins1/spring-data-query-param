@@ -4,7 +4,7 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'signing'
-
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 sourceCompatibility = '11'
@@ -23,6 +23,9 @@ ext {
     set('springCloudVersion', "2020.0.2")
 }
 
+
+
+
 sonarqube {
     properties {
         property "sonar.projectKey", "jijins1_spring-data-query-param"
@@ -39,25 +42,30 @@ subprojects {
     apply plugin: 'jacoco'
     apply plugin: 'maven-publish'
     apply plugin: 'signing'
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencyManagement {
+        imports {
+            mavenBom 'io.spring.platform:platform-bom:1.0.1.RELEASE'
+        }
+    }
 
     repositories {
         mavenLocal()
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
-
-        jcenter()
-        google()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
 
 
     dependencies {
+
         testImplementation "org.assertj:assertj-core:3.11.1"
         compileOnly 'org.projectlombok:lombok:1.18.20'
         annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        testImplementation 'org.jeasy:easy-random-core:5.0.0'
+        testImplementation 'io.github.glytching:junit-extensions:2.4.0'
         testCompileOnly 'org.projectlombok:lombok:1.18.20'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
     }
@@ -130,9 +138,7 @@ subprojects {
     }
 
 
-
 }
-
 
 
 publishing {

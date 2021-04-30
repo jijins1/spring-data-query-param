@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.*;
 
 
@@ -55,6 +52,21 @@ public class CriteriaResearchRepository implements DemoEntityRepository {
                 List<?> listOfValue = (List<?>) listToCast;
                 final String fieldToQuery = fieldName;
                 predicates.add(criteriaBuilder.in(from.get(fieldToQuery)).value(listOfValue));
+            } else if (listToCast == null) {
+                log.debug("Param {} is not set", fieldName);
+            } else {
+                log.error("listToCast is not a List");
+            }
+        });
+
+        final Map<String, ?> xToOneSubEntityMapCriteria = packedCriteria.getOrDefault(CommonCriteria.TypeCriteria.SUB_ENTITY, new HashMap<>());
+        xToOneSubEntityMapCriteria.forEach((fieldName, listToCast) -> {
+            if (listToCast instanceof List) {
+                List<?> listOfValue = (List<?>) listToCast;
+                final String fieldToQuery = fieldName.substring(0, fieldName.length() - 2);
+                log.info("Joining field {}", fieldToQuery);
+                final Join<Object, Object> objectJoin = from.join(fieldToQuery);
+                predicates.add(criteriaBuilder.in(objectJoin.get("id")).value(listOfValue));
             } else if (listToCast == null) {
                 log.debug("Param {} is not set", fieldName);
             } else {

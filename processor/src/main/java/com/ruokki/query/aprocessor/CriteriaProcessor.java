@@ -11,6 +11,7 @@ import com.ruokki.query.annotation.CommonCriteria;
 import com.ruokki.query.aprocessor.creator.field.DateFieldCreator;
 import com.ruokki.query.aprocessor.creator.field.FieldCreator;
 import com.ruokki.query.aprocessor.creator.field.PrimitiveFieldCreator;
+import com.ruokki.query.aprocessor.creator.field.SubEntityFieldCreator;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
@@ -30,6 +31,7 @@ import java.util.*;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class CriteriaProcessor extends AbstractProcessor {
 
+    public static final String SUB_ENTITY_PARAM = "subEntityParam";
     List<FieldCreator> fieldCreators;
 
     public CriteriaProcessor() {
@@ -37,7 +39,9 @@ public class CriteriaProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        fieldCreators = Lists.newArrayList(new PrimitiveFieldCreator(processingEnv), new DateFieldCreator(processingEnv));
+        fieldCreators = Lists.newArrayList(new PrimitiveFieldCreator(processingEnv),
+                new DateFieldCreator(processingEnv),
+                new SubEntityFieldCreator(processingEnv));
 
         for (TypeElement annotation : annotations) {
             for (Element classElement : roundEnv.getElementsAnnotatedWith(annotation)) {
@@ -127,8 +131,10 @@ public class CriteriaProcessor extends AbstractProcessor {
         body.addAndGetStatement("Map<TypeCriteria, Map<String, ?>> result = new HashMap<>()");
         body.addAndGetStatement("Map<String, Date> dateParam = new HashMap<>()");
         body.addAndGetStatement("Map<String, List<?>> primitiveParam = new HashMap<>()");
+        body.addAndGetStatement("Map<String, List<?>> " + SUB_ENTITY_PARAM + " = new HashMap<>()");
         body.addAndGetStatement("result.put(TypeCriteria.DATE, dateParam)");
         body.addAndGetStatement("result.put(TypeCriteria.PRIMITIF, primitiveParam)");
+        body.addAndGetStatement("result.put(TypeCriteria.SUB_ENTITY, " + SUB_ENTITY_PARAM + ")");
 
 
         getCriteriaMap.setBody(body);

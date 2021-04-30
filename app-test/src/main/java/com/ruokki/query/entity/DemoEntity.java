@@ -5,11 +5,9 @@ import com.ruokki.query.annotation.SubCriteria;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -29,6 +27,11 @@ public class DemoEntity {
     @JoinColumn(name = "demo_sub_entity_id")
     private DemoSubEntity demoSubEntity;
 
+
+    @SubCriteria
+    @ManyToMany()
+    @JoinTable(name="DEMO_DEMO_SUB")
+    private List<DemoSubEntity> demoSubEntityList;
 
     public String otherMethod() {
         return "";
