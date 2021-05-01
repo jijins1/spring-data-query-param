@@ -35,7 +35,6 @@ public class SubEntityFieldCreator implements FieldCreator {
 
     @Override
     public List<FieldDeclaration> createField(Element fieldElement, ContextedClass contextedClass) {
-        processingEnvironment.getMessager().printMessage(Diagnostic.Kind.NOTE, "HAAAAA" + fieldElement.toString());
         final String fieldNameSingle = fieldElement.getSimpleName().toString() + "Id";
 
         final FieldDeclaration fieldDeclaration = new MultiFieldDeclarator().makeFieldDecalaration(fieldNameSingle, contextedClass, processingEnvironment.getElementUtils().getTypeElement(Long.class.getName()));
