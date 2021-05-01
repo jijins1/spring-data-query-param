@@ -90,10 +90,17 @@ subprojects {
         withSourcesJar()
     }
 
+
+
+
     publishing {
         repositories {
             maven {
-                url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                if(project.hasProperty("release")){
+                    url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                }else {
+                    url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                }
                 credentials {
                     username ossrhUsername
                     password ossrhPassword
@@ -135,53 +142,16 @@ subprojects {
                 }
             }
         }
-    }
 
-
-}
-
-
-publishing {
-    repositories {
-        maven {
-            url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            credentials {
-                username ossrhUsername
-                password ossrhPassword
-            }
+        signing {
+            sign publishing.publications.mavenJava
         }
+
     }
-    publications {
-        mavenJava(MavenPublication) {
-            pom {
-                name = 'Spring Data Query Param'
-                description = 'Generate easily usable criteria for data jpa'
-                url = 'https://github.com/jijins1/spring-data-query-param'
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'ruokki'
-                        name = 'Léo GERBERON'
-                        email = 'leo.gerberon@live.fr'
-                    }
-                }
-                scm {
-                    connection = 'scm:git:git://github.com/jijins1/spring-data-query-param.git'
-                    developerConnection = 'scm:git:ssh://github.com/jijins1/spring-data-query-param.git'
-                    url = 'https://github.com/jijins1/spring-data-query-param'
-                }
-            }
-        }
-    }
+
+
 }
-signing {
-    sign publishing.publications.mavenJava
-}
+
 
 
 jacoco {

@@ -1,10 +1,10 @@
-plugins{
+plugins {
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management'
 }
 
-
-
+publish.enabled = false
+publishMavenPublicationToMavenRepository.enabled = false
 
 
 dependencies {

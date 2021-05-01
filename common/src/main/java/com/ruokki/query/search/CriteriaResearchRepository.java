@@ -1,4 +1,4 @@
-package com.ruokki.query.repository;
+package com.ruokki.query.search;
 
 import com.ruokki.query.annotation.CommonCriteria;
 import org.slf4j.Logger;
@@ -11,7 +11,7 @@ import java.util.*;
 
 
 @Repository
-public class CriteriaResearchRepository implements DemoEntityRepository {
+public class CriteriaResearchRepository {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(CriteriaResearchRepository.class);
     public static final String START = "Start";
     public static final String END = "End";
