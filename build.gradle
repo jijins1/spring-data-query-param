@@ -2,12 +2,23 @@ plugins {
     id 'java'
     id "org.sonarqube" version "3.1.1"
     id 'jacoco'
-    id 'maven-publish'
+
+
+    id "nebula.lint" version "16.9.0"
+    id 'nebula.maven-publish' version '17.0.0'
+    id 'nebula.javadoc-jar' version '17.0.0'
+    id 'nebula.source-jar' version '17.0.0'
+
+
+    id 'nebula.info' version '5.1.0'
+    id 'nebula.contacts' version '5.1.0'
+
     id 'signing'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 sourceCompatibility = '11'
+
 
 configurations {
     compileOnly {
@@ -24,8 +35,6 @@ ext {
 }
 
 
-
-
 sonarqube {
     properties {
         property "sonar.projectKey", "jijins1_spring-data-query-param"
@@ -40,9 +49,22 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
     apply plugin: 'jacoco'
-    apply plugin: 'maven-publish'
+
+    apply plugin: 'nebula.maven-publish'
+    apply plugin: 'nebula.javadoc-jar'
+    apply plugin: 'nebula.source-jar'
+    apply plugin: 'nebula.info'
+    apply plugin: 'nebula.contacts'
+    apply plugin: "nebula.lint"
+
     apply plugin: 'signing'
     apply plugin: 'io.spring.dependency-management'
+
+    contacts {
+        'leo.gerberon@live.fr' {
+            github 'jijins1'
+        }
+    }
 
     dependencyManagement {
         imports {
@@ -85,20 +107,13 @@ subprojects {
 
     }
 
-    java {
-        withJavadocJar()
-        withSourcesJar()
-    }
-
-
-
 
     publishing {
         repositories {
             maven {
-                if(project.hasProperty("release")){
+                if (project.hasProperty("release")) {
                     url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-                }else {
+                } else {
                     url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
                 }
                 credentials {
@@ -106,17 +121,11 @@ subprojects {
                     password ossrhPassword
                 }
             }
+
         }
 
         publications {
-
-            maven(MavenPublication) {
-                groupId = 'ovh.ruokki.query'
-                artifactId = project.name
-
-                from components.java
-            }
-            mavenJava(MavenPublication) {
+            nebula(MavenPublication) {
                 pom {
                     name = 'Spring Data Query Param'
                     description = 'Generate easily usable criteria for data jpa'
@@ -127,31 +136,21 @@ subprojects {
                             url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                         }
                     }
-                    developers {
-                        developer {
-                            id = 'ruokki'
-                            name = 'Léo GERBERON'
-                            email = 'leo.gerberon@live.fr'
-                        }
-                    }
-                    scm {
-                        connection = 'scm:git:git://github.com/jijins1/spring-data-query-param.git'
-                        developerConnection = 'scm:git:ssh://github.com/jijins1/spring-data-query-param.git'
-                        url = 'https://github.com/jijins1/spring-data-query-param'
-                    }
                 }
             }
         }
 
         signing {
-            sign publishing.publications.mavenJava
+            def signingKey = findProperty("signingKey")
+            def signingPassword = findProperty("signingPassword")
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign publishing.publications.nebula
         }
 
     }
 
 
 }
-
 
 
 jacoco {

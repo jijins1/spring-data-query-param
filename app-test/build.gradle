@@ -3,11 +3,10 @@ plugins {
     id 'io.spring.dependency-management'
 }
 
-publish.enabled = false
-publishMavenPublicationToMavenRepository.enabled = false
 
 
 dependencies {
+
     annotationProcessor project(":processor")
     implementation project(":processor")
     implementation project(":common")
