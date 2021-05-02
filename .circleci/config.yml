@@ -51,6 +51,7 @@ jobs:
           path: ~/test-results
       - store_artifacts:
           path: ~/test-results/junit
+      - run: gradle publish
 workflows:
   main:
     jobs:
