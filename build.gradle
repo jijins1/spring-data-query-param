@@ -141,7 +141,7 @@ subprojects {
         }
 
         signing {
-            def signingKey = findProperty("signingKey")
+            def signingKey = findProperty("signingKey").replace("\\n","\n")
             def signingPassword = findProperty("signingPassword")
             useInMemoryPgpKeys(signingKey, signingPassword)
             sign publishing.publications.nebula
