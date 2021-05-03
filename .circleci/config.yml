@@ -114,15 +114,16 @@ workflows:
           context: SonarCloud
       - publish:
           context: SonarCloud
+          requires:
+            - build
           filters:  # using regex filters requires the entire branch to match
             branches:
               only:  # only branches matching the below regex filters will run
                 - master
-      - publish:
+      - publish-release:
           context: SonarCloud
+          requires:
+            - build
           filters:  # using regex filters requires the entire branch to match
             tags:
               only: /^[0-9].*/
-            branches:
-              only:  # only branches matching the below regex filters will run
-                - master
