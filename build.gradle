@@ -127,6 +127,11 @@ subprojects {
         publications {
             nebula(MavenPublication) {
                 pom {
+                    if (project.hasProperty("release")) {
+                        version = project.version;
+                    } else {
+                        version = project.version + '-SNAPSHOT'
+                    }
                     name = 'Spring Data Query Param'
                     description = 'Generate easily usable criteria for data jpa'
                     url = 'https://github.com/jijins1/spring-data-query-param'
@@ -141,7 +146,7 @@ subprojects {
         }
 
         signing {
-            def signingKey = findProperty("signingKey").replace("\\n","\n")
+            def signingKey = findProperty("signingKey").replace("\\n", "\n")
             def signingPassword = findProperty("signingPassword")
             useInMemoryPgpKeys(signingKey, signingPassword)
             sign publishing.publications.nebula
