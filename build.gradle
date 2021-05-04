@@ -112,6 +112,7 @@ subprojects {
         repositories {
             maven {
                 if (project.hasProperty("release")) {
+                    println "Release"
                     url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
                 } else {
                     url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
@@ -133,7 +134,6 @@ subprojects {
                         version = project.version + '-SNAPSHOT'
                     }
                     name = 'Spring Data Query Param'
-                    description = 'Generate easily usable criteria for data jpa'
                     url = 'https://github.com/jijins1/spring-data-query-param'
                     licenses {
                         license {
@@ -146,11 +146,16 @@ subprojects {
         }
 
         signing {
-            def signingKey = findProperty("signingKey").replace("\\n", "\n")
-            def signingPassword = findProperty("signingPassword")
-            useInMemoryPgpKeys(signingKey, signingPassword)
-            sign publishing.publications.nebula
+            if(hasProperty("signingKey")) {
+                def signingKey = findProperty("signingKey").replace("\\n", "\n")
+                def signingPassword = findProperty("signingPassword")
+                useInMemoryPgpKeys(signingKey, signingPassword)
+                sign publishing.publications.nebula
+            }else{
+                println "No key"
+            }
         }
+
 
     }
 
