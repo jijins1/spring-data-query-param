@@ -146,7 +146,7 @@ subprojects {
         }
 
         signing {
-            if(hasProperty("signingKey")) {
+            if(project.hasProperty("signingKey")) {
                 def signingKey = findProperty("signingKey").replace("\\n", "\n")
                 def signingPassword = findProperty("signingPassword")
                 useInMemoryPgpKeys(signingKey, signingPassword)
